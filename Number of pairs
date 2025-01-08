@@ -44,18 +44,14 @@ signed main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL); cout.tie(NULL);
 
-    int n, k;
-    cin >> n >> k;
+    int n, x;
+    cin >> n >> x;
     fu(i, 1, n) cin >> A[i];
-    ll de = 0, j = 1;
-    multiset<int> s;
+    ll de = 0, j = n;
     fu(i, 1, n){
-        s.insert(A[i]);
-        while (*s.rbegin() - *s.begin() > k) {
-            s.erase(s.find(A[j]));
-            ++j;
-        }
-        de += s.size();
+        while (j > i && A[i] + A[j] > x) --j;
+        if (i == j) break;
+        if (A[i] + A[j] == x) ++de;
     }
     cout << de;
 }

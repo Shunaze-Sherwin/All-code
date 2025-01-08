@@ -26,6 +26,7 @@ const int mod = 1e9 + 7;
 const int mx = 1e5;
 
 int A[mx + 5];
+int L[mx + 5], R[mx + 5];
 
 signed main(){
 
@@ -47,15 +48,20 @@ signed main(){
     int n, k;
     cin >> n >> k;
     fu(i, 1, n) cin >> A[i];
-    ll de = 0, j = 1;
-    multiset<int> s;
+    sort(A + 1, A + n + 1);
+    int ma = 0;
+    int j = 1;
+    L[0] = 0;
     fu(i, 1, n){
-        s.insert(A[i]);
-        while (*s.rbegin() - *s.begin() > k) {
-            s.erase(s.find(A[j]));
-            ++j;
-        }
-        de += s.size();
+        while (A[i] - A[j] > k) ++j;
+        L[i] = max(L[i - 1], i - j + 1);
     }
-    cout << de;
+    R[n + 1] = 0;
+    j = n;
+    fd(i, n, 1){
+        while (A[j] - A[i] > k) --j;
+        R[i] = max(R[i + 1], j - i + 1);
+    }
+    fu(i, 1, n) ma = max(ma, L[i] + R[i + 1]);
+    cout << ma;
 }
