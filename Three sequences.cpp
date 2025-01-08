@@ -45,7 +45,7 @@ signed main(){
     cin.tie(NULL); cout.tie(NULL);
 
     int n;
-    cin >> n;
+    cin >> n;   
     fu(i, 1, n) cin >> A[i];
     fu(i, 1, n) cin >> B[i];
     fu(i, 1, n) cin >> C[i];
