@@ -23,10 +23,10 @@ using namespace std;
 #define int ll
 
 const int mod = 1e9 + 7;
-const int mx = 1e5;
+const int mx = 5e2;
 
-int A[mx + 5];
-int L[mx + 5], R[mx + 5];
+int A[mx + 5][mx + 5];
+int T[mx + 5][mx + 5];
 
 signed main(){
 
@@ -45,23 +45,27 @@ signed main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL); cout.tie(NULL);
 
-    int n, k;
-    cin >> n >> k;
-    fu(i, 1, n) cin >> A[i];
-    sort(A + 1, A + n + 1);
-    int ma = 0;
-    int j = 1;
-    L[0] = 0;
-    fu(i, 1, n){
-        while (A[i] - A[j] > k) ++j;
-        L[i] = max(L[i - 1], i - j + 1);
-    }
-    R[n + 1] = 0;
-    j = n;
-    fd(i, n, 1){
-        while (A[j] - A[i] > k) --j;
-        R[i] = max(R[i + 1], j - i + 1);
-    }
-    fu(i, 1, n) ma = max(ma, L[i] + R[i + 1]);
-    cout << ma;
+    int n, m, k;
+    cin >> n >> m >> k;
+    fu(i, 1, n)
+        fu(j, 1, m) {
+            char c;
+            cin >> c;
+            A[i][j] = c - '0';
+            A[i][j] += A[i][j - 1];
+        }
+    fu(i, 1, m)
+        fu(j, 1, n) T[j][i] = T[j - 1][i] + A[j][i];
+    ll ans = 0;
+    fu(i, 1, n)
+        fu(j, 1, m){
+            int v = 1;
+            fd(u, i, 1){
+                while (v < j && T[i][j] - T[i][v - 1] - T[u - 1][j] + T[u - 1][v - 1] > k) ++v;
+                if (T[i][j] - T[i][v - 1] - T[u - 1][j] + T[u - 1][v - 1] <= k) 
+                    ans = max((j - v + 1)*(i - u + 1), ans);
+                else break;
+            }
+        }
+    cout << ans;
 }

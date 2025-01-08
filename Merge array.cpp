@@ -25,9 +25,6 @@ using namespace std;
 const int mod = 1e9 + 7;
 const int mx = 1e5;
 
-int A[mx + 5];
-int L[mx + 5], R[mx + 5];
-
 signed main(){
 
     #define name "Sherwin"
@@ -45,23 +42,20 @@ signed main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL); cout.tie(NULL);
 
-    int n, k;
-    cin >> n >> k;
-    fu(i, 1, n) cin >> A[i];
-    sort(A + 1, A + n + 1);
-    int ma = 0;
-    int j = 1;
-    L[0] = 0;
+    int n;
+    cin >> n;
+    vector<int> v, b;
     fu(i, 1, n){
-        while (A[i] - A[j] > k) ++j;
-        L[i] = max(L[i - 1], i - j + 1);
+        int x;
+        cin >> x;
+        v.pb(x);
     }
-    R[n + 1] = 0;
-    j = n;
-    fd(i, n, 1){
-        while (A[j] - A[i] > k) --j;
-        R[i] = max(R[i + 1], j - i + 1);
+    fu(i, 1, n){
+        int x;
+        cin >> x;
+        b.pb(x);
     }
-    fu(i, 1, n) ma = max(ma, L[i] + R[i + 1]);
-    cout << ma;
+    vector<int> m(v.size() + b.size());
+    merge(all(v), all(b), m.begin());
+    for (int i : m) cout << i << char(32);
 }

@@ -26,7 +26,7 @@ const int mod = 1e9 + 7;
 const int mx = 1e5;
 
 int A[mx + 5];
-int L[mx + 5], R[mx + 5];
+int D[mx + 5];
 
 signed main(){
 
@@ -36,7 +36,7 @@ signed main(){
         freopen(name".OUT", "w", stdout);
     }
 
-    #define name "file"
+    #define name "SEED"
     if (fopen(name".INP", "r")){
         freopen(name".INP", "r", stdin);
         freopen(name".out", "w", stdout);
@@ -45,23 +45,20 @@ signed main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL); cout.tie(NULL);
 
-    int n, k;
-    cin >> n >> k;
+    int n;
+    cin >> n;
     fu(i, 1, n) cin >> A[i];
-    sort(A + 1, A + n + 1);
-    int ma = 0;
-    int j = 1;
-    L[0] = 0;
+    ll de = 0, l = 1;
+    bool kt = false;
     fu(i, 1, n){
-        while (A[i] - A[j] > k) ++j;
-        L[i] = max(L[i - 1], i - j + 1);
+        ++D[A[i]];
+        if (D[A[i]] == 2) kt = true;
+        while (kt){
+            --D[A[l]];
+            if (D[A[l]] == 1) kt = false;
+            ++l;
+        }
+        de += i - l + 1;
     }
-    R[n + 1] = 0;
-    j = n;
-    fd(i, n, 1){
-        while (A[j] - A[i] > k) --j;
-        R[i] = max(R[i + 1], j - i + 1);
-    }
-    fu(i, 1, n) ma = max(ma, L[i] + R[i + 1]);
-    cout << ma;
+    cout << de;
 }
