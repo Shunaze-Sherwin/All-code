@@ -25,7 +25,7 @@ using namespace std;
 const int mod = 1e9 + 7;
 const int mx = 1e5;
 
-pa A[mx + 5];
+int A[mx + 5];
 
 signed main(){
 
@@ -46,16 +46,16 @@ signed main(){
 
     int n, k;
     cin >> n >> k;
-    fu(i, 1, n) {
-        cin >> A[i].fi;
-        A[i].se = i;
-    }
-    ll de = 0, l = 1;
-    sort(A + 1, A + n + 1);
-    fu(i, 1, n) cout << A[i].fi << char(32) << A[i].se << endl;
+    fu(i, 1, n) cin >> A[i];
+    ll de = 0, j = 1;
+    multiset<int> s;
     fu(i, 1, n){
-        while (A[i].fi - A[l].fi > k) ++l;
-        de += i - l + 1;
+        s.insert(A[i]);
+        while (*s.rbegin() - *s.begin() > k) {
+            s.erase(s.find(A[j]));
+            ++j;
+        }
+        de += s.size();
     }
     cout << de;
 }
