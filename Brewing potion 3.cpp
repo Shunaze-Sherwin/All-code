@@ -36,7 +36,7 @@ signed main(){
         freopen(name".OUT", "w", stdout);
     }
 
-    #define name "file"
+    #define name "SEED"
     if (fopen(name".INP", "r")){
         freopen(name".INP", "r", stdin);
         freopen(name".out", "w", stdout);
