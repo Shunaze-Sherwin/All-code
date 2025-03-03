@@ -61,6 +61,9 @@ signed main(){
         freopen(name".OUT", "w", stdout);
     }
 
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL); cout.tie(NULL);
+
     pre();
     int n, s;
     cin >> n >> s;

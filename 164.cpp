@@ -20,25 +20,17 @@ using namespace std;
 #define fd(i, a, b) for (int i = (a); i >= (b); --i)
 #define int ll
 
-const int MOD = 998244353;
-const int mx = 1e5;
-const int inf = 1e18 + 15;
-
-int add(int a, int b){ 
-    return (a + b >= MOD ? a + b - MOD : a + b);
-}
-int sub(int a, int b){ 
-    return (a - b < 0 ? a - b + MOD : a - b);
-}
-ll mul(int a, int b){
-    ll val = 1ll*a*b;
-    return val - val/MOD*MOD;
-}
+constexpr int MOD = 1e9 + 7;
+constexpr int mx = 1e6;
+constexpr int inf = 1e18 + 15;
 
 int fact[mx + 5];
 int invm[mx + 5];
 int invf[mx + 5];
-int gt[mx + 5];
+
+void add(int &a, int b){a += b; if (a >= MOD) a -= MOD;};
+void sub(int &a, int b){a -= b; if (a < 0) a += MOD;};
+void mul(int &a, int b){a = (a%MOD) * (b%MOD) % MOD;}
 
 void pre(){
     fact[1] = fact[0] = 1;
@@ -49,18 +41,10 @@ void pre(){
         invm[i] = MOD - MOD/i*invm[MOD%i]%MOD;
         invf[i] = invf[i - 1]*invm[i]%MOD;
     }
-}   
-
-int C(int k, int n){
-    if (k > n) return 0;
-    return fact[n]*invf[k]%MOD*invf[n - k]%MOD;
 }
 
-int lt(int a, int b){
-    if (b == 0) return 1;
-    int x = lt(a, b/2);
-    if (b & 1) return x*x%MOD*a%MOD;
-    return x*x%MOD;
+int C(int k, int n){
+    return fact[n]*invf[k]%MOD*invf[n - k]%MOD;
 }
 
 signed main(){
@@ -81,16 +65,11 @@ signed main(){
     cin.tie(NULL); cout.tie(NULL);
 
     pre();
-    int n, m;
-    cin >> n >> m;
-    if (n > m) swap(n, m);
-    int ans = 0;
-    gt[0] = 1;
-    fu(i, 1, mx) gt[i] = gt[i - 1]*2%MOD;
-    fu(i, 0, n){
-        int val = C(i, n);
-        if (i & 1) ans = (ans - val*lt(sub(gt[n - i], 1), m)%MOD + MOD)%MOD;
-        else ans = (ans + val*lt(sub(gt[n - i], 1), m)%MOD)%MOD;
+    int q;
+    cin >> q;
+    while (q--){
+        int n, k;
+        cin >> n >> k;
+        cout << C(k, n) << endl;
     }
-    cout << ans;
 }
